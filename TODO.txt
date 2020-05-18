@@ -1,0 +1,4 @@
+UI:
+	Diffuculty selection
+Logic:
+	Row and Column numbers
