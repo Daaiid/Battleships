@@ -1,4 +1,15 @@
 UI:
-	Diffuculty selection
+	Difficulty selection
+	Main Game UI:
+		Grid
+		Fields with content (icons?)
+		Row and Column counters
+		New Game button
+		Interactive Fields
 Logic:
-	Row and Column numbers
+	Initializing playerboard
+	
+Testing:
+	BoardGenerator:
+		Infinite Loops possible if the whole grid is full?
+		Correct placement of ships
