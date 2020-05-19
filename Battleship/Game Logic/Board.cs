@@ -8,9 +8,9 @@ namespace Battleship.Game_Logic
         // First index are the columns (x), second are rows(y)
         private Field[,] _grid;
         private ShipCounter _shipCounter;
-        private uint _length;
+        private int _length;
 
-        internal Board(uint fieldsPerAxis, ShipCounter shipCounter)
+        internal Board(int fieldsPerAxis, ShipCounter shipCounter)
         {
             _length = fieldsPerAxis;
             _shipCounter = shipCounter;
@@ -32,7 +32,7 @@ namespace Battleship.Game_Logic
             get { return _shipCounter; }
         }
 
-        public uint Length
+        public int Length
         {
             get { return _length; }
         }

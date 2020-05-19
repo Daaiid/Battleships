@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Controls;
 using Battleship.Enum;
 
@@ -20,33 +19,38 @@ namespace Battleship.Game_Logic
         {
             _board = BoardFactory.GenerateBoard(_difficulty);
 
-            var shipCounter = _board.ShipCounter.TotalShips.ToArray();
+            var shipCounter = _board.ShipCounter.TotalShips;
 
             // For each ship type:
-            for (int i = shipCounter.Length - 1; i >= 0; i--)
+            for (int i = shipCounter.Count - 1; i >= 0; i--)
             {
+                int shipLength = i + 1;
+
                 // For each ship of the current type:
                 for (int j = 0; j < shipCounter[i]; j++)
                 {
                     // Make a ship
-                    var ship = new Ship(i + 1, RandomOrientation());
+                    var ship = new Ship(shipLength, RandomOrientation());
 
                     Coordinates coords;
 
-                    // Generate coordinates until they are valid
+                    // Generate coordinates for the ship's origin
+                    // until it can be placed based on the rules.
                     do
                     {
                         coords = new Coordinates
                         {
-                            Row = _rng.Next(0, (int)(_board.Length - ship.Length + 1)),
-                            Column = _rng.Next(0, (int)(_board.Length - ship.Length + 1))
+                            // The bound of the random numbers is adjusted, 
+                            // so no elements of the ship go out of bounds.
+                            // Plus one because the upper bound in Next() is exclusive.
+                            Row = _rng.Next(0, _board.Length - shipLength + 1),
+                            Column = _rng.Next(0, _board.Length - shipLength + 1)
                         };
-
 
                     } while (!IsShipPlaceable(coords, ship));
 
                     // Place ship onto board
-                    for (int k = 0; k < ship.Length; k++)
+                    for (int shipElement = 0; shipElement < ship.Length; shipElement++)
                     {
                         _board.Grid[coords.Column, coords.Row].State = FieldState.Ship;
 
@@ -54,8 +58,7 @@ namespace Battleship.Game_Logic
                         {
                             coords.Column++;
                         }
-
-                        if (ship.Orientation == Orientation.Vertical)
+                        else
                         {
                             coords.Row++;
                         }
@@ -73,21 +76,24 @@ namespace Battleship.Game_Logic
 
         private bool IsShipPlaceable(Coordinates coords, Ship ship)
         {
-            for (int i = 0; i < ship.Length; i++)
+            if (ship.Orientation == Orientation.Horizontal)
             {
-                if (IsShipElementPlaceable(coords))
+                for (int i = 0; i < ship.Length; i++)
                 {
-                    return false;
+                    if (!IsShipElementPlaceable(coords.WithOffset(0, i)))
+                    {
+                        return false;
+                    }
                 }
-
-                if (ship.Orientation == Orientation.Horizontal)
+            }
+            else
+            {
+                for (int i = 0; i < ship.Length; i++)
                 {
-                    coords.Column++;
-                }
-
-                if (ship.Orientation == Orientation.Vertical)
-                {
-                    coords.Row++;
+                    if (!IsShipElementPlaceable(coords.WithOffset(i, 0)))
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -96,13 +102,14 @@ namespace Battleship.Game_Logic
 
         private bool IsShipElementPlaceable(Coordinates coords)
         {
-            // Checks both the bounding fields and the field on the coordinates, if there is a ship element already
+            // Checks both the bounding fields and the field on the coordinates, if there is a ship element present
             for (int i = -1; i <= 1; i++)
             {
                 for (int j = -1; j <= 1; j++)
                 {
                     if (_board.GetFieldState(coords.WithOffset(i, j)) == FieldState.Ship)
                     {
+                        // A single ship field means that the element can't be placed.
                         return false;
                     }
                 }
