@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Controls;
 using Battleship.Enum;
 
 namespace Battleship.Game_Logic
@@ -11,8 +9,8 @@ namespace Battleship.Game_Logic
         private Difficulty _difficulty;
         private readonly Board _solutionBoard;
         private readonly Board _playerBoard;
-        private IReadOnlyCollection<int> _rowNumbers;
-        private IReadOnlyCollection<int> _columnNumbers;
+        private IReadOnlyList<int> _shipsPerRow;
+        private IReadOnlyList<int> _shipsPerColumn;
 
 
 
@@ -25,14 +23,28 @@ namespace Battleship.Game_Logic
 
         }
 
-        private void GenerateRowNumbers()
+        private void CountShipsPerRow()
         {
+            var shipsPerRow = new List<int>();
 
+            for (int rowIndex = 0; rowIndex < _solutionBoard.Length; rowIndex++)
+            {
+                shipsPerRow.Add(_solutionBoard.GetRow(rowIndex).Count(field => field.State == FieldState.Ship));
+            }
+
+            _shipsPerColumn = shipsPerRow;
         }
 
-        private void GenerateColumnNumbers()
+        private void CountShipsPerColumn()
         {
+            var shipsPerColumn = new List<int>();
 
+            for (int columnIndex = 0; columnIndex < _solutionBoard.Length; columnIndex++)
+            {
+                shipsPerColumn.Add(_solutionBoard.GetColumn(columnIndex).Count(field => field.State == FieldState.Ship));
+            }
+
+            _shipsPerColumn = shipsPerColumn;
         }
 
     }
