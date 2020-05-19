@@ -32,13 +32,13 @@ namespace Battleship.Game_Logic
                     // Make a ship
                     var ship = new Ship(shipLength, RandomOrientation());
 
-                    Coordinates coords;
+                    Coordinates shipOrigin;
 
                     // Generate coordinates for the ship's origin
                     // until it can be placed based on the rules.
                     do
                     {
-                        coords = new Coordinates
+                        shipOrigin = new Coordinates
                         {
                             // The bound of the random numbers is adjusted, 
                             // so no elements of the ship go out of bounds.
@@ -47,22 +47,9 @@ namespace Battleship.Game_Logic
                             Column = _rng.Next(0, _board.Length - shipLength + 1)
                         };
 
-                    } while (!IsShipPlaceable(coords, ship));
+                    } while (!IsShipPlaceable(shipOrigin, ship));
 
-                    // Place ship onto board
-                    for (int shipElement = 0; shipElement < ship.Length; shipElement++)
-                    {
-                        _board.Grid[coords.Column, coords.Row].State = FieldState.Ship;
-
-                        if (ship.Orientation == Orientation.Horizontal)
-                        {
-                            coords.Column++;
-                        }
-                        else
-                        {
-                            coords.Row++;
-                        }
-                    }
+                    PlaceShipOntoTheBoard(shipOrigin, ship);
                 }
             }
 
@@ -74,26 +61,20 @@ namespace Battleship.Game_Logic
             return _rng.Next(0, 2) == 1 ? Orientation.Horizontal : Orientation.Vertical;
         }
 
-        private bool IsShipPlaceable(Coordinates coords, Ship ship)
+        private bool IsShipPlaceable(Coordinates shipOrigin, Ship ship)
         {
-            if (ship.Orientation == Orientation.Horizontal)
+            // For each element of ship:
+            for (int element = 0; element < ship.Length; element++)
             {
-                for (int i = 0; i < ship.Length; i++)
+                // Adjust the coordinates from the origin to the current element
+                // based on orientation.
+                var elementCoords = ship.Orientation == Orientation.Horizontal
+                    ? shipOrigin.WithOffset(0, element)
+                    : shipOrigin.WithOffset(element, 0);
+
+                if (!IsShipElementPlaceable(elementCoords))
                 {
-                    if (!IsShipElementPlaceable(coords.WithOffset(0, i)))
-                    {
-                        return false;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < ship.Length; i++)
-                {
-                    if (!IsShipElementPlaceable(coords.WithOffset(i, 0)))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 
@@ -118,5 +99,18 @@ namespace Battleship.Game_Logic
             return true;
         }
 
+
+        private void PlaceShipOntoTheBoard(Coordinates shipOrigin, Ship ship)
+        {
+            // For each element of the ship:
+            for (int element = 0; element < ship.Length; element++)
+            {
+                var elementCoords = ship.Orientation == Orientation.Horizontal
+                    ? shipOrigin.WithOffset(0, element)
+                    : shipOrigin.WithOffset(element, 0);
+
+                _board.Grid[elementCoords.Column, elementCoords.Row].State = FieldState.Ship;
+            }
+        }
     }
 }
