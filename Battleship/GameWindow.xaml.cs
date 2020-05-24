@@ -8,8 +8,10 @@ namespace Battleship
     {
         public GameWindow(Difficulty difficulty)
         {
-            DataContext = new GameViewModel(difficulty);
+            DataContext = new GameViewModel(difficulty, PlayBoardGrid);
+            
             InitializeComponent();
         }
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Battleship.Game_Logic
 {
-    class ShipCounter
+    public class ShipCounter
     {
         // This array stores the total available ships per type (length)
         // Index 0 contains the one length boat, index 1 countains 2 length boats etc.

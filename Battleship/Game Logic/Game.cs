@@ -26,6 +26,22 @@ namespace Battleship.Game_Logic
             // TODO: Initialize playerboard
         }
 
+        public Board PlayerBoard
+        {
+            get { return _playerBoard; }
+        }
+
+        public IReadOnlyList<int> ShipsPerRow
+        {
+            get { return _shipsPerRow; }
+        }
+
+        public IReadOnlyList<int> ShipsPerColumn
+        {
+            get { return _shipsPerColumn; }
+        }
+
+
         private void CountShipsPerRow()
         {
             var shipsPerRow = new List<int>();

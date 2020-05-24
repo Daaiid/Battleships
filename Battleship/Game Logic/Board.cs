@@ -3,7 +3,7 @@ using Battleship.Enum;
 
 namespace Battleship.Game_Logic
 {
-    class Board
+    public class Board
     {
         // First index are the columns (x), second are rows(y)
         private Field[,] _grid;

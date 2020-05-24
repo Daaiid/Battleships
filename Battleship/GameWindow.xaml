@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="Battleships" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Name="PlayBoardGrid"/>
+        <Button Grid.Column="1" >New Game</Button>
     </Grid>
 </Window>

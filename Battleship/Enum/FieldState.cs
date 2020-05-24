@@ -1,6 +1,6 @@
 ﻿namespace Battleship.Enum
 {
-    enum FieldState
+    public enum FieldState
     {
         Undefined = -1,
         Empty = 0,

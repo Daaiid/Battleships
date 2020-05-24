@@ -2,7 +2,7 @@
 
 namespace Battleship.Game_Logic
 {
-    class Field
+    public class Field
     {
         private FieldState _state;
 
