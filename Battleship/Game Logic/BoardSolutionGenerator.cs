@@ -6,6 +6,8 @@ namespace Battleship.Game_Logic
 {
     class BoardSolutionGenerator
     {
+        private const int MaxAttempts = 1000;
+
         private readonly Random _rng = new Random();
         private readonly Difficulty _difficulty;
         private Board _board;
@@ -21,7 +23,14 @@ namespace Battleship.Game_Logic
 
             var shipCounter = _board.ShipCounter.TotalShips;
 
+            // Monitors the amount of attempts we tried to place a ship.
+            // There is a possibility that a board can't be finished at some point.
+            // In that case we throw away the current board and try again.
+            int attempts = 0;
+
             // For each ship type:
+            // We go backwards, because the big ships are harder to place.
+            // That way they get placed first and there are fewer missed attempts.
             for (int i = shipCounter.Count - 1; i >= 0; i--)
             {
                 int shipLength = i + 1;
@@ -38,6 +47,12 @@ namespace Battleship.Game_Logic
                     // until it can be placed based on the rules.
                     do
                     {
+                        if (attempts++ > MaxAttempts)
+                        {
+                            // Breaks the current generation and tries again.
+                            return GenerateNewSolution();
+                        }
+
                         shipOrigin = new Coordinates
                         {
                             // The bound of the random numbers is adjusted, 
