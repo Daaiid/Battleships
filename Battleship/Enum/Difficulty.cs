@@ -1,6 +1,6 @@
 ﻿namespace Battleship.Enum
 {
-    enum Difficulty
+    public enum Difficulty
     {
         Easy = 0,
         Medium = 1,

@@ -1,5 +1,4 @@
 UI:
-	Difficulty selection
 	Main Game UI:
 		Grid
 		Fields with content (icons?)
@@ -11,5 +10,4 @@ Logic:
 	
 Testing:
 	BoardGenerator:
-		Infinite Loops possible if the whole grid is full?
 		Correct placement of ships
