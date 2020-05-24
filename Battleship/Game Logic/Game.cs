@@ -4,7 +4,7 @@ using Battleship.Enum;
 
 namespace Battleship.Game_Logic
 {
-    class Game
+    public class Game
     {
         private Difficulty _difficulty;
         private readonly Board _solutionBoard;
@@ -20,7 +20,10 @@ namespace Battleship.Game_Logic
 
             _solutionBoard = new BoardSolutionGenerator(_difficulty).GenerateNewSolution();
 
+            CountShipsPerColumn();
+            CountShipsPerRow();
 
+            // TODO: Initialize playerboard
         }
 
         private void CountShipsPerRow()
@@ -32,7 +35,7 @@ namespace Battleship.Game_Logic
                 shipsPerRow.Add(_solutionBoard.GetRow(rowIndex).Count(field => field.State == FieldState.Ship));
             }
 
-            _shipsPerColumn = shipsPerRow;
+            _shipsPerRow = shipsPerRow;
         }
 
         private void CountShipsPerColumn()

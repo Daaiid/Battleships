@@ -7,6 +7,8 @@ UI:
 		Interactive Fields
 Logic:
 	Initializing playerboard
+	Updating logic on interaction
+	Win State
 	
 Testing:
 	BoardGenerator:

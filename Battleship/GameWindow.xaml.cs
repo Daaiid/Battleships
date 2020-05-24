@@ -1,16 +1,14 @@
 ﻿using System.Windows;
 using Battleship.Enum;
+using Battleship.ViewModels;
 
 namespace Battleship
 {
     public partial class GameWindow : Window
     {
-        public readonly Difficulty Difficulty;
-
         public GameWindow(Difficulty difficulty)
         {
-            Difficulty = difficulty;
-
+            DataContext = new GameViewModel(difficulty);
             InitializeComponent();
         }
     }
