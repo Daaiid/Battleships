@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using Battleship.Enum;
-using Battleship.ViewModels;
+using Battleship.UI;
 
 namespace Battleship
 {
@@ -8,9 +8,9 @@ namespace Battleship
     {
         public GameWindow(Difficulty difficulty)
         {
-            DataContext = new GameViewModel(difficulty, PlayBoardGrid);
-            
             InitializeComponent();
+            
+            DataContext = new GameViewModel(difficulty, PlayBoardGrid);
         }
 
     }

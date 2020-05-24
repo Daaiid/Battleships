@@ -1,8 +1,11 @@
-﻿using Battleship.Enum;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Battleship.Annotations;
+using Battleship.Enum;
 
 namespace Battleship.Game_Logic
 {
-    public class Field
+    public class Field : INotifyPropertyChanged
     {
         private FieldState _state;
 
@@ -31,8 +34,17 @@ namespace Battleship.Game_Logic
                 if (IsChangeable)
                 {
                     _state = value;
+                    OnPropertyChanged();
                 }
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

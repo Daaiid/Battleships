@@ -24,12 +24,16 @@ namespace Battleship.Game_Logic
             CountShipsPerRow();
 
             // TODO: Initialize playerboard
+            _playerBoard = BoardFactory.GenerateBoard(_difficulty);
+            
         }
 
         public Board PlayerBoard
         {
             get { return _playerBoard; }
         }
+
+
 
         public IReadOnlyList<int> ShipsPerRow
         {
@@ -41,14 +45,19 @@ namespace Battleship.Game_Logic
             get { return _shipsPerColumn; }
         }
 
+        public Board SolutionBoard
+        {
+            get { return _solutionBoard; }
+        }
+
 
         private void CountShipsPerRow()
         {
             var shipsPerRow = new List<int>();
 
-            for (int rowIndex = 0; rowIndex < _solutionBoard.Length; rowIndex++)
+            for (int rowIndex = 0; rowIndex < SolutionBoard.Length; rowIndex++)
             {
-                shipsPerRow.Add(_solutionBoard.GetRow(rowIndex).Count(field => field.State == FieldState.Ship));
+                shipsPerRow.Add(SolutionBoard.GetRow(rowIndex).Count(field => field.State == FieldState.Ship));
             }
 
             _shipsPerRow = shipsPerRow;
@@ -58,9 +67,9 @@ namespace Battleship.Game_Logic
         {
             var shipsPerColumn = new List<int>();
 
-            for (int columnIndex = 0; columnIndex < _solutionBoard.Length; columnIndex++)
+            for (int columnIndex = 0; columnIndex < SolutionBoard.Length; columnIndex++)
             {
-                shipsPerColumn.Add(_solutionBoard.GetColumn(columnIndex).Count(field => field.State == FieldState.Ship));
+                shipsPerColumn.Add(SolutionBoard.GetColumn(columnIndex).Count(field => field.State == FieldState.Ship));
             }
 
             _shipsPerColumn = shipsPerColumn;
