@@ -44,7 +44,7 @@ namespace Battleship.Game_Logic
 
         public FieldState GetFieldState(Coordinates coord)
         {
-            if (coord.Row >= _length || coord.Column >= _length)
+            if (coord.Row >= _length || coord.Column >= _length || coord.Row < 0 || coord.Column < 0)
             {
                 return FieldState.Undefined;
             }
