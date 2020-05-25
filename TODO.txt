@@ -1,12 +1,5 @@
 UI:
 	Main Game UI:
 		New Game button
-		Interactive Fields
 Logic:
-	Initializing playerboard
-	Updating logic on interaction
-	Win State
 	
-Testing:
-	BoardGenerator:
-		Correct placement of ships
