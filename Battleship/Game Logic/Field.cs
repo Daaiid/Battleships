@@ -20,7 +20,7 @@ namespace Battleship.Game_Logic
                 IsChangeable = false;
             }
 
-            State = initialState;
+            _state = initialState;
         }
 
 

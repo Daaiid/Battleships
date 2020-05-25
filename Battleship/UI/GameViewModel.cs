@@ -36,14 +36,12 @@ namespace Battleship.UI
                 _uiGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
-            for (int i = 0; i < gridAxis; i++)
+            for (int row = 0; row < gridAxis; row++)
             {
-                for (int j = 0; j < gridAxis; j++)
+                for (int column = 0; column < gridAxis; column++)
                 { 
                     var button = new Button();
-                    var field = Game.PlayerBoard.Grid[i, j];
-
-                    button.IsEnabled = field.IsChangeable;
+                    var field = Game.PlayerBoard.Grid[row, column];
 
                     var binding = new Binding
                     {
@@ -51,7 +49,6 @@ namespace Battleship.UI
                         Source = field,
                         Path = new PropertyPath("State"),
                         Mode = BindingMode.OneWay,
-                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                     };
 
                     var style = new Style(typeof(Button));
@@ -61,37 +58,41 @@ namespace Battleship.UI
                     button.Command = CycleFieldStateCommand;
                     button.CommandParameter = field;
 
-                    Grid.SetRow(button, i);
-                    Grid.SetColumn(button, j);
+                    Grid.SetRow(button, row);
+                    Grid.SetColumn(button, column);
 
                     _uiGrid.Children.Add(button);
                 }
             }
 
             // Ships per Column numbers
-            for (int i = 0; i < gridAxis; i++)
+            for (int column = 0; column < gridAxis; column++)
             {
                 var textBlock = new TextBlock
                 {
-                    Text = Game.ShipsPerColumn[i].ToString()
+                    Text = Game.ShipsPerColumn[column].ToString(),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
                 };
 
-                Grid.SetRow(textBlock, i);
-                Grid.SetColumn(textBlock, gridAxis);
+                Grid.SetRow(textBlock, gridAxis);
+                Grid.SetColumn(textBlock, column);
 
                 _uiGrid.Children.Add(textBlock);
             }
 
             // Ships per Row numbers
-            for (int i = 0; i < gridAxis; i++)
+            for (int row = 0; row < gridAxis; row++)
             {
                 var textBlock = new TextBlock
                 {
-                    Text = Game.ShipsPerRow[i].ToString()
+                    Text = Game.ShipsPerRow[row].ToString(),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
                 };
 
-                Grid.SetRow(textBlock, gridAxis);
-                Grid.SetColumn(textBlock, i);
+                Grid.SetRow(textBlock, row);
+                Grid.SetColumn(textBlock, gridAxis);
 
                 _uiGrid.Children.Add(textBlock);
             }
@@ -109,5 +110,6 @@ namespace Battleship.UI
                 }
             }
         }
+
     }
 }

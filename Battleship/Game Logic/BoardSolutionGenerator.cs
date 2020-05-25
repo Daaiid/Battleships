@@ -21,9 +21,15 @@ namespace Battleship.Game_Logic
         {
             _board = BoardFactory.GenerateBoard(_difficulty);
 
+            // First fill everything with water
+            foreach (var field in _board.Grid)
+            {
+                field.State =  FieldState.Water;
+            }
+
             var shipCounter = _board.ShipCounter.TotalShips;
 
-            // Monitors the amount of attempts we tried to place a ship.
+            // Monitors the amount of attempts we tried to place any ship.
             // There is a possibility that a board can't be finished at some point.
             // In that case we throw away the current board and try again.
             int attempts = 0;
@@ -99,11 +105,11 @@ namespace Battleship.Game_Logic
         private bool IsShipElementPlaceable(Coordinates coords)
         {
             // Checks both the bounding fields and the field on the coordinates, if there is a ship element present
-            for (int i = -1; i <= 1; i++)
+            for (int rowOffset = -1; rowOffset <= 1; rowOffset++)
             {
-                for (int j = -1; j <= 1; j++)
+                for (int columnOffset = -1; columnOffset <= 1; columnOffset++)
                 {
-                    if (_board.GetFieldState(coords.WithOffset(i, j)) == FieldState.Ship)
+                    if (_board.GetFieldState(coords.WithOffset(rowOffset, columnOffset)) == FieldState.Ship)
                     {
                         // A single ship field means that the element can't be placed.
                         return false;
@@ -124,7 +130,7 @@ namespace Battleship.Game_Logic
                     ? shipOrigin.WithOffset(0, element)
                     : shipOrigin.WithOffset(element, 0);
 
-                _board.Grid[elementCoords.Column, elementCoords.Row].State = FieldState.Ship;
+                _board.Grid[elementCoords.Row, elementCoords.Column].State = FieldState.Ship;
             }
         }
     }

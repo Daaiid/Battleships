@@ -5,14 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Battleship"
         mc:Ignorable="d"
-        Title="Battleships" Height="450" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+        Title="Battleships" Height="800" Width="800">
 
         <Grid Name="PlayBoardGrid"/>
-        <Button Grid.Column="1" >New Game</Button>
-    </Grid>
 </Window>

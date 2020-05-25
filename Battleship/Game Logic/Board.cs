@@ -17,11 +17,11 @@ namespace Battleship.Game_Logic
 
             _grid = new Field[Length, Length];
 
-            for (int i = 0; i < Length; i++)
+            for (int row = 0; row < Length; row++)
             {
-                for (int j = 0; j < Length; j++)
+                for (int column = 0; column < Length; column++)
                 {
-                    Grid[i,j] = new Field();
+                    Grid[row,column] = new Field();
                 }
             }
 
@@ -49,16 +49,16 @@ namespace Battleship.Game_Logic
                 return FieldState.Undefined;
             }
 
-            return Grid[coord.Column, coord.Row].State;
+            return Grid[coord.Row, coord.Column].State;
         }
 
         public Field[] GetRow(int rowIndex)
         {
             var row = new List<Field>();
 
-            for (int i = 0; i < _length; i++)
+            for (int column = 0; column < _length; column++)
             {
-                row.Add(_grid[i, rowIndex]);
+                row.Add(_grid[rowIndex, column]);
             }
 
             return row.ToArray();
@@ -68,9 +68,9 @@ namespace Battleship.Game_Logic
         {
             var column = new List<Field>();
 
-            for (int i = 0; i < _length; i++)
+            for (int row = 0; row < _length; row++)
             {
-                column.Add(_grid[columnIndex, i]);
+                column.Add(_grid[row, columnIndex]);
             }
 
             return column.ToArray();
