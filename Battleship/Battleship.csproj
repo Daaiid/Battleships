@@ -58,6 +58,7 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="UI\FieldState2ColorConverter.cs" />
     <Compile Include="UI\GameViewModel.cs" />
+    <Compile Include="UI\RelayCommand.cs" />
     <Page Include="GameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

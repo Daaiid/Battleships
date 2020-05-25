@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Battleship.Enum;
 
@@ -50,6 +51,21 @@ namespace Battleship.Game_Logic
             get { return _solutionBoard; }
         }
 
+        public bool IsPlayerBoardDone()
+        {
+            for (int i = 0; i < PlayerBoard.Length; i++)
+            {
+                for (int j = 0; j < PlayerBoard.Length; j++)
+                {
+                    if (PlayerBoard.Grid[i, j].State != SolutionBoard.Grid[i, j].State)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
 
         private void CountShipsPerRow()
         {
@@ -74,6 +90,7 @@ namespace Battleship.Game_Logic
 
             _shipsPerColumn = shipsPerColumn;
         }
+
 
     }
 }

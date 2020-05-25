@@ -39,6 +39,24 @@ namespace Battleship.Game_Logic
             }
         }
 
+        public void CycleFieldState()
+        {
+            switch (_state)
+            {
+                case FieldState.Empty:
+                    State = FieldState.Water;
+                    break;
+
+                case FieldState.Water:
+                    State = FieldState.Ship;
+                    break;
+
+                case FieldState.Ship:
+                    State = FieldState.Empty;
+                    break;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

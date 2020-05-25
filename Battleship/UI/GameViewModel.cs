@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using Battleship.Enum;
 using Battleship.Game_Logic;
 
@@ -9,10 +10,17 @@ namespace Battleship.UI
     public class GameViewModel
     {
         private readonly Grid _uiGrid;
+
         public Game Game { get; }
+
+        public ICommand CycleFieldStateCommand { get; }
 
         public GameViewModel(Difficulty difficulty, Grid uiGrid)
         {
+            CycleFieldStateCommand = 
+                new RelayCommand(CycleFieldState);
+
+
             Game = new Game(difficulty);
             _uiGrid = uiGrid;
             InitializeUIGrid();
@@ -40,12 +48,18 @@ namespace Battleship.UI
                     var binding = new Binding
                     {
                         Converter = new FieldState2ColorConverter(), 
-                        Source = field.State
+                        Source = field,
+                        Path = new PropertyPath("State"),
+                        Mode = BindingMode.OneWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                     };
 
                     var style = new Style(typeof(Button));
                     style.Setters.Add(new Setter(Control.BackgroundProperty, binding));
                     button.Style = style;
+
+                    button.Command = CycleFieldStateCommand;
+                    button.CommandParameter = field;
 
                     Grid.SetRow(button, i);
                     Grid.SetColumn(button, j);
@@ -83,6 +97,17 @@ namespace Battleship.UI
             }
         }
 
-        
+        private void CycleFieldState(object parameter)
+        {
+            if (parameter is Field field)
+            {
+                field.CycleFieldState();
+
+                if (Game.IsPlayerBoardDone())
+                {
+                    MessageBox.Show("You won!");
+                }
+            }
+        }
     }
 }

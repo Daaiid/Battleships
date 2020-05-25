@@ -1,8 +1,5 @@
 UI:
 	Main Game UI:
-		Grid
-		Fields with content (icons?)
-		Row and Column counters
 		New Game button
 		Interactive Fields
 Logic:
